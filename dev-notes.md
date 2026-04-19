@@ -2,6 +2,41 @@
 
 
 
+\## 2026-04-19
+
+
+
+\### Tasks
+
+* Implement auto-versioning for Unity Android builds (versionCode + versionName)
+* Add commit hash and build number to APK naming
+* Refactor build script to construct output filenames dynamically
+* Improve logging using BuildReport to surface real build errors
+
+
+
+\### Bugs / issues
+
+* Unity build failed with multiple errors but logs initially only showed error count
+* versionCode defaulted to 0 → invalid for Android builds
+* commitHash argument could be null → malformed APK filename
+* Difficulty diagnosing issues due to insufficient logging
+
+
+
+\### Thoughts / Ideas
+
+* Always log detailed build errors from BuildReport, not just summary
+* Validate all CLI inputs (versionCode, commitHash, buildNumber) with safe defaults
+* Android builds have strict requirements (e.g. versionCode > 0)
+* Build scripts should fail loudly and transparently for CI debugging
+
+
+
+
+
+
+
 \## 2026-04-18
 
 

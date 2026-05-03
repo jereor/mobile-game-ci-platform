@@ -33,18 +33,18 @@ namespace Editor
             Debug.Log($"Building to: {buildOutputPath}");
             
             // TODO: Refactor to support multiple platforms (iOS)
-            var versionCode = int.TryParse(GetArg("-ciVersionCode"), out var code) ? code : 1;
-            PlayerSettings.Android.bundleVersionCode = versionCode;
+            var androidVersionCode = int.TryParse(GetArg("-ciAndroidVersionCode"), out var code) ? code : 1;
+            PlayerSettings.Android.bundleVersionCode = androidVersionCode;
             Debug.Log($"Bundle Version Code: {PlayerSettings.Android.bundleVersionCode}");
-
-            var versionName = $"{GetArg("-version") ?? "1.0"}.{versionCode}";
-            PlayerSettings.bundleVersion = versionName;
+            
+            var androidVersionName = $"{GetArg("-ciAndroidVersion") ?? "1.0"}.{androidVersionCode}";
+            PlayerSettings.bundleVersion = androidVersionName;
             Debug.Log($"Bundle Version: {PlayerSettings.bundleVersion}");
             
             var commitHash = GetArg("-ciCommitHash") ?? "local";
             Debug.Log($"Commit Hash: {commitHash}");
             
-            var buildId = int.TryParse(GetArg("-ciBuildId"), out var number) ? number : 1;;
+            var buildId = long.TryParse(GetArg("-ciBuildId"), out var number) ? number : 1;
             Debug.Log($"Build ID: {buildId}");
             
             var fileName = $"game-{commitHash}-{buildId}.apk";

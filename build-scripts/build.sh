@@ -22,7 +22,9 @@ printVariables() {
   echo "Unity:        $UNITY_PATH"
   echo "Project:      $PROJECT_PATH"
   echo "Output Dir:   $OUTPUT_DIR"
-  echo "Version Code: $VERSION_CODE"
+  echo "Android Version Code: $ANDROID_VERSION_CODE"
+  echo "Android Version Name: $ANDROID_VERSION_NAME"
+  echo "Version:      $VERSION"
   echo "Commit Hash:  $COMMIT_HASH"
   echo "Build ID: $BUILD_ID"
   echo "Log File:     $LOG_FILE"
@@ -41,9 +43,11 @@ runUnityBuild() {
     
   local ci_args=(
     -ciBuildOutput "$OUTPUT_DIR"
-    -ciVersionCode "$VERSION_CODE"
+    -ciVersion "$VERSION"
     -ciCommitHash "$COMMIT_HASH"
     -ciBuildId "$BUILD_ID"
+    -ciAndroidVersionCode "$ANDROID_VERSION_CODE"
+    -ciAndroidVersionName "$ANDROID_VERSION_NAME"
   )
       
   "$UNITY_PATH" "${unity_args[@]}" "${ci_args[@]}"
@@ -52,9 +56,11 @@ runUnityBuild() {
 main() {
   echo "Setting defaults..."
   LOG_FILE="${LOG_FILE:--}"
-  VERSION_CODE="${VERSION_CODE:-1}"
+  VERSION="${VERSION:-1.0.0}"
   COMMIT_HASH="${COMMIT_HASH:-local}"
-  BUILD_ID="${BUILD_ID:-0}"
+  BUILD_ID="${CI_RUN_NUMBER:-$(date -u +%Y%m%d%H%M%S)}"
+  ANDROID_VERSION_CODE="${BUILD_ID}"
+  ANDROID_VERSION_NAME="1.0.${BUILD_ID}"
   
   UNITY_PATH="${UNITY_PATH:-}"
   PROJECT_PATH="${PROJECT_PATH:-}"

@@ -30,17 +30,23 @@ printVariables() {
 }
 
 runUnityBuild() {
-  "$UNITY_PATH" \
-    -batchmode \
-    -nographics \
-    -projectPath "$PROJECT_PATH" \
-    -buildOutput "$OUTPUT_DIR" \
-    -versionCode "$VERSION_CODE" \
-    -commit-hash "$COMMIT_HASH" \
-    -build-id "$BUILD_ID" \
-    -executeMethod Editor.BuildScript.PerformBuild \
-    -logFile "$LOG_FILE" \
+  local unity_args=(
+    -batchmode
+    -nographics
+    -projectPath "$PROJECT_PATH"
+    -executeMethod Editor.BuildScript.PerformBuild
+    -logFile "$LOG_FILE"
     -quit
+  )
+    
+  local ci_args=(
+    -ciBuildOutput "$OUTPUT_DIR"
+    -ciVersionCode "$VERSION_CODE"
+    -ciCommitHash "$COMMIT_HASH"
+    -ciBuildId "$BUILD_ID"
+  )
+      
+  "$UNITY_PATH" "${unity_args[@]}" "${ci_args[@]}"
 }
 
 main() {

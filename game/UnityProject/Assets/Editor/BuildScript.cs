@@ -21,7 +21,7 @@ namespace Editor
                 throw new Exception("No scenes in Build Settings!");
             }
             
-            var buildOutputPath = GetArg("-buildOutput") ?? "Builds";
+            var buildOutputPath = GetArg("-ciBuildOutput") ?? "Builds";
 
             if (Directory.Exists(buildOutputPath))
             {
@@ -33,7 +33,7 @@ namespace Editor
             Debug.Log($"Building to: {buildOutputPath}");
             
             // TODO: Refactor to support multiple platforms (iOS)
-            var versionCode = int.TryParse(GetArg("-versionCode"), out var code) ? code : 1;
+            var versionCode = int.TryParse(GetArg("-ciVersionCode"), out var code) ? code : 1;
             PlayerSettings.Android.bundleVersionCode = versionCode;
             Debug.Log($"Bundle Version Code: {PlayerSettings.Android.bundleVersionCode}");
 
@@ -41,13 +41,13 @@ namespace Editor
             PlayerSettings.bundleVersion = versionName;
             Debug.Log($"Bundle Version: {PlayerSettings.bundleVersion}");
             
-            var commitHash = GetArg("-commitHash") ?? "local";
+            var commitHash = GetArg("-ciCommitHash") ?? "local";
             Debug.Log($"Commit Hash: {commitHash}");
             
-            var buildNumber = int.TryParse(GetArg("-buildNumber"), out var number) ? number : 1;;
-            Debug.Log($"Build Number: {buildNumber}");
+            var buildId = int.TryParse(GetArg("-ciBuildId"), out var number) ? number : 1;;
+            Debug.Log($"Build ID: {buildId}");
             
-            var fileName = $"game-{commitHash}-{buildNumber}.apk";
+            var fileName = $"game-{commitHash}-{buildId}.apk";
             Debug.Log($"File Name: {fileName}");
             
             var options = new BuildPlayerOptions
